@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="jp.ryans.rssreader.MainActivity">
+    tools:context="jp.ryans.rssreader.WebViewActivity">
 
-    <ListView
-        android:id="@+id/rssList"
+    <WebView
+        android:id="@+id/webView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </android.support.constraint.ConstraintLayout>
