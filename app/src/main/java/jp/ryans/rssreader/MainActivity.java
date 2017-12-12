@@ -37,6 +37,16 @@ public class MainActivity extends AppCompatActivity implements CatchResponse {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @Override
     public void setData(String urlString, Object data) {
         // RssのURLと等しいか検査
         if( rssList.getUrl().equals(urlString)) {

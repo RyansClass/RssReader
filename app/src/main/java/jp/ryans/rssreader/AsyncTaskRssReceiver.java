@@ -7,8 +7,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
-
 /**
  * Created by ryan on 2017/12/09.
  */
@@ -50,11 +50,11 @@ public class AsyncTaskRssReceiver extends AsyncTask<String,Integer,Object> {
              byte[] buffer = new byte[1024*1024];
              int len = 0;
              try {
-                 while( 0 != (len = is.read(buffer))) {
+                 while( -1 != (len = is.read(buffer,0,buffer.length-1))) {
                      bio.write(buffer,0,len);
                  }
              } catch (Exception e) {
-                 Log.e(this.getClass().getSimpleName(),"入出力エラー");
+                 Log.e(this.getClass().getSimpleName(),"入出力エラー " + e.getMessage());
              }
 
              try {
@@ -82,8 +82,10 @@ public class AsyncTaskRssReceiver extends AsyncTask<String,Integer,Object> {
     private InputStream getInputStream(String urlString) {
         InputStream is = null;
         try {
+            // URLに日本語が含まれた場合の処理
+            String encodedResult = new URI(urlString).toASCIIString();
 
-            URL url = new URL(urlString);
+            URL url = new URL(encodedResult);
 
             return  url.openConnection().getInputStream();
 
