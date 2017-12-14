@@ -18,16 +18,22 @@ public class MainActivity extends AppCompatActivity implements CatchResponse {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        // Rssデータのリスト
-        rssList = new RssItemList();
-        // 取得するURL
-        rssList.setUrl("https://feeds.lifehacker.jp/rss/lifehacker/index.xml");
-        // 通信タスクの生成
-        AsyncTaskRssReceiver rss = new AsyncTaskRssReceiver();
-        // 通信結果をここのメソッドを呼び出す
-        rss.setCallback(this);
-        // タスクの実行
-        rss.execute(rssList.getUrl(),RssParser.class.getName());
+        // セーブされたリストが存在するか検査します
+        if ( null != savedInstanceState) {
+            rssList =(RssItemList) savedInstanceState.get("RssList");
+
+        } else {
+            // Rssデータのリスト
+            rssList = new RssItemList();
+            // 取得するURL
+            rssList.setUrl("https://feeds.lifehacker.jp/rss/lifehacker/index.xml");
+            // 通信タスクの生成
+            AsyncTaskRssReceiver rss = new AsyncTaskRssReceiver();
+            // 通信結果をここのメソッドを呼び出す
+            rss.setCallback(this);
+            // タスクの実行
+            rss.execute(rssList.getUrl(),RssParser.class.getName());
+        }
         // メインアクティビティからListViewのインスタンスを取得します
         ListView listView = (ListView) findViewById(R.id.rssList);
         // 作成したアダプタクラスのHeaderAdapterのインスタンスを生成します
@@ -35,6 +41,13 @@ public class MainActivity extends AppCompatActivity implements CatchResponse {
         // リストビューにアダプタを設定します。
         listView.setAdapter(adapter);
     }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable("RssList",rssList);
+    }
+
 
     @Override
     protected void onStart() {

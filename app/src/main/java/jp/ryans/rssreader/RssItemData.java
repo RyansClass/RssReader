@@ -11,12 +11,13 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 
 /**
  * Created by ryan on 2017/12/09.
  */
 
-public class RssItemData {
+public class RssItemData implements Serializable {
 
     /**
      * アイテムのタイトル
