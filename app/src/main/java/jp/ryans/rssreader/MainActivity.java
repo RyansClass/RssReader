@@ -42,6 +42,10 @@ public class MainActivity extends AppCompatActivity implements CatchResponse {
         listView.setAdapter(adapter);
     }
 
+    /**
+     * アクティビティが終了する前に現在のリストを保存します
+     * @param outState
+     */
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
