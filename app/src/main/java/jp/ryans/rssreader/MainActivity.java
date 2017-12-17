@@ -78,32 +78,10 @@ public class MainActivity extends AppCompatActivity implements CatchResponse {
                     rssList.setTitle(d.getTitle());
                     rssList.setDescription(d.getDescription());
                     rssList.addAll(d);
-                    // 画像を取得する
-                    for(RssItemData item : d){
-                        if (item.isImage()) {
-                            String url = item.getImage();
-                            // 画像のURLを指定して取得する
-                            AsyncTaskRssReceiver getImage = new AsyncTaskRssReceiver();
-                            // 取得できたらメインのアクティビティを呼び出す
-                            getImage.setCallback(this);
-                            // タスクの実行
-                            getImage.execute(url);
-                        }
-                    }
-                }
-            }
-        } else {
-            if ( data instanceof byte[]) {
-                byte[] bytes = (byte[]) data;
-                // 画像のURLと等しいアイテムを取得する
-                RssItemData item = rssList.getItemForImage(urlString);
-                if( null != item ) {
-                    // アイテムに画像データを保存する
-                    item.setImageData(this,bytes);
+                    // 表示を更新する
+                    ((ListView) findViewById(R.id.rssList)).invalidate();
                 }
             }
         }
-        // 表示を更新する
-        ((ListView) findViewById(R.id.rssList)).invalidate();
     }
 }
