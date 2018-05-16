@@ -2,15 +2,18 @@ package jp.ryans.rssreader;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.util.Log;
 
 import java.net.URL;
 
-public class MainActivity extends AppCompatActivity implements CatchResponse {
+public class MainActivity extends AppCompatActivity implements CatchResponse,AdapterView.OnItemClickListener {
 
     /**
      * リストビューに表示するRSSのアイテムリスト
@@ -45,6 +48,9 @@ public class MainActivity extends AppCompatActivity implements CatchResponse {
         RssListAdapter adapter = new RssListAdapter((Context)this.getApplicationContext(), R.layout.layout_rss_item, rssList );
         // リストビューにアダプタを設定します。
         listView.setAdapter(adapter);
+        // リストビューにリスナーを設定します
+        listView.setOnItemClickListener(this);
+
     }
 
     /**
@@ -54,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements CatchResponse {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+        // 取得したRSSリストを保存
         outState.putSerializable("RssList",rssList);
     }
 
@@ -96,4 +103,14 @@ public class MainActivity extends AppCompatActivity implements CatchResponse {
         Log.d(this.getClass().getSimpleName(),"通信からコールバック");
     }
 
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+
+        RssItemData data = rssList.get(position);
+
+        Intent it = new Intent(this,WebViewActivity.class);
+        it.putExtra("link", data.getLink());
+        startActivity(it);
+    }
 }
