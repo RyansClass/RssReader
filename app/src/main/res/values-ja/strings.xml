@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">RSSリーダー</string>
+    <string name="rss_title">タイトル</string>
+    <string name="rss_item_title">アイテムのタイトル</string>
+    <string name="rss_item_description">アイテムの説明</string>
+</resources>
