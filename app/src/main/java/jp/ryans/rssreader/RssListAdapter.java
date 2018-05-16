@@ -1,6 +1,7 @@
 package jp.ryans.rssreader;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,6 +56,7 @@ public class RssListAdapter extends ArrayAdapter<RssItemData> {
         // 説明を設定する
         ((TextView) convertView.findViewById(R.id.itemDescription)).setText(data.getDescription());
 
+        Log.d(this.getClass().getSimpleName(),"アイテムの生成");
         return convertView;
     }
 
