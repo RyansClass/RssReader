@@ -13,6 +13,10 @@ import android.util.Log;
 
 import java.net.URL;
 
+/**
+ * メインアクティビティ
+ * ListViewのクリックとRssReceiverのコールバックを実装する
+ */
 public class MainActivity extends AppCompatActivity implements CatchResponse,AdapterView.OnItemClickListener {
 
     /**
@@ -105,12 +109,13 @@ public class MainActivity extends AppCompatActivity implements CatchResponse,Ada
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-
+        // クリックされたアイテムのpostionからデータを取得する
         RssItemData data = rssList.get(position);
-
+        // インテントの生成
         Intent it = new Intent(this,WebViewActivity.class);
+        // リンク先を設定する
         it.putExtra("link", data.getLink());
+        // アクテビティを起動する
         startActivity(it);
     }
 }
