@@ -1,9 +1,12 @@
 package jp.ryans.rssreader;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ListView;
+import android.util.Log;
 
 import java.net.URL;
 
@@ -21,6 +24,7 @@ public class MainActivity extends AppCompatActivity implements CatchResponse {
         // セーブされたリストが存在するか検査します
         if ( null != savedInstanceState) {
             rssList =(RssItemList) savedInstanceState.get("RssList");
+            Log.d(this.getClass().getSimpleName(),"セーブされたリストを使用");
 
         } else {
             // Rssデータのリスト
@@ -33,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements CatchResponse {
             rss.setCallback(this);
             // タスクの実行
             rss.execute(rssList.getUrl(),RssParser.class.getName());
+            Log.d(this.getClass().getSimpleName(),"通信を行い取得");
         }
         // メインアクティビティからListViewのインスタンスを取得します
         ListView listView = (ListView) findViewById(R.id.rssList);
@@ -56,6 +61,10 @@ public class MainActivity extends AppCompatActivity implements CatchResponse {
     @Override
     protected void onStart() {
         super.onStart();
+
+        if( rssList.isEmpty() ) {
+            Log.d(this.getClass().getSimpleName(),"受信を待つ");
+        }
     }
 
     @Override
@@ -78,10 +87,13 @@ public class MainActivity extends AppCompatActivity implements CatchResponse {
                     rssList.setTitle(d.getTitle());
                     rssList.setDescription(d.getDescription());
                     rssList.addAll(d);
-                    // 表示を更新する
-                    ((ListView) findViewById(R.id.rssList)).invalidate();
                 }
             }
         }
+        ListView li = ((ListView) findViewById(R.id.rssList));
+        RssListAdapter ad = (RssListAdapter) li.getAdapter();
+        ad.notifyDataSetChanged();
+        Log.d(this.getClass().getSimpleName(),"通信からコールバック");
     }
+
 }
